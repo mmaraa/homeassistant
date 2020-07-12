@@ -1,0 +1,861 @@
+[
+    {
+        "id": "c1e67030.bd228",
+        "type": "server-events",
+        "z": "99d9eb34.8e9c58",
+        "name": "IFTTT Webhook received",
+        "server": "138092b5.db8b7d",
+        "event_type": "ifttt_webhook_received",
+        "exposeToHomeAssistant": false,
+        "haConfig": [
+            {
+                "property": "name",
+                "value": ""
+            },
+            {
+                "property": "icon",
+                "value": ""
+            }
+        ],
+        "x": 130,
+        "y": 480,
+        "wires": [
+            [
+                "5d5dc525.7272ac"
+            ]
+        ]
+    },
+    {
+        "id": "5d5dc525.7272ac",
+        "type": "switch",
+        "z": "99d9eb34.8e9c58",
+        "name": "Event from Smartfire?",
+        "property": "payload.event.eventname",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "smartfire-status",
+                "vt": "str"
+            },
+            {
+                "t": "neq",
+                "v": "smartfire-status",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 380,
+        "y": 480,
+        "wires": [
+            [
+                "af4c669c.d42548"
+            ],
+            []
+        ]
+    },
+    {
+        "id": "28d1169.5c87cea",
+        "type": "json",
+        "z": "99d9eb34.8e9c58",
+        "name": "Convert Smarfire to Object",
+        "property": "payload",
+        "action": "",
+        "pretty": false,
+        "x": 720,
+        "y": 480,
+        "wires": [
+            [
+                "765d0dc.c0d00f4",
+                "d529b7aa.ad3888",
+                "a2672037.8e86e",
+                "5ee12758.e6e3d8",
+                "b2346ff0.52efc",
+                "f09fda92.168808",
+                "9310df5d.42f5b",
+                "9c786e61.91743",
+                "13758230.30b4be",
+                "a95f829b.82fab",
+                "4e08f0b.18be81",
+                "bc447851.520ea8",
+                "21db5cf5.0ace04",
+                "2e9ce0c9.df91b"
+            ]
+        ]
+    },
+    {
+        "id": "765d0dc.c0d00f4",
+        "type": "ha-entity",
+        "z": "99d9eb34.8e9c58",
+        "name": "Smartfire Fan Percentage",
+        "server": "138092b5.db8b7d",
+        "version": 1,
+        "debugenabled": false,
+        "outputs": 1,
+        "entityType": "sensor",
+        "config": [
+            {
+                "property": "name",
+                "value": "smartfire_fan_percentage"
+            },
+            {
+                "property": "device_class",
+                "value": ""
+            },
+            {
+                "property": "icon",
+                "value": "mdi:fan"
+            },
+            {
+                "property": "unit_of_measurement",
+                "value": "%"
+            }
+        ],
+        "state": "payload.fan",
+        "stateType": "jsonata",
+        "attributes": [],
+        "resend": true,
+        "outputLocation": "",
+        "outputLocationType": "none",
+        "inputOverride": "allow",
+        "x": 1110,
+        "y": 1060,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "d529b7aa.ad3888",
+        "type": "ha-entity",
+        "z": "99d9eb34.8e9c58",
+        "name": "Smartfire Fan Mode",
+        "server": "138092b5.db8b7d",
+        "version": 1,
+        "debugenabled": false,
+        "outputs": 1,
+        "entityType": "sensor",
+        "config": [
+            {
+                "property": "name",
+                "value": "smarfire_fan_mode"
+            },
+            {
+                "property": "device_class",
+                "value": ""
+            },
+            {
+                "property": "icon",
+                "value": "mdi:cog"
+            },
+            {
+                "property": "unit_of_measurement",
+                "value": ""
+            }
+        ],
+        "state": "payload.mode",
+        "stateType": "msg",
+        "attributes": [],
+        "resend": true,
+        "outputLocation": "",
+        "outputLocationType": "none",
+        "inputOverride": "allow",
+        "x": 1090,
+        "y": 1120,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "a2672037.8e86e",
+        "type": "ha-entity",
+        "z": "99d9eb34.8e9c58",
+        "name": "Smartfire Alarm",
+        "server": "138092b5.db8b7d",
+        "version": 1,
+        "debugenabled": false,
+        "outputs": 1,
+        "entityType": "sensor",
+        "config": [
+            {
+                "property": "name",
+                "value": "smartfire_alarm"
+            },
+            {
+                "property": "device_class",
+                "value": ""
+            },
+            {
+                "property": "icon",
+                "value": "mdi:alarm-light-outline"
+            },
+            {
+                "property": "unit_of_measurement",
+                "value": ""
+            }
+        ],
+        "state": "payload.alarm",
+        "stateType": "jsonata",
+        "attributes": [],
+        "resend": true,
+        "outputLocation": "",
+        "outputLocationType": "none",
+        "inputOverride": "allow",
+        "x": 1080,
+        "y": 1180,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "a662c1ad.b163c",
+        "type": "ha-entity",
+        "z": "99d9eb34.8e9c58",
+        "name": "Smartfire Food 1",
+        "server": "138092b5.db8b7d",
+        "version": 1,
+        "debugenabled": false,
+        "outputs": 1,
+        "entityType": "sensor",
+        "config": [
+            {
+                "property": "name",
+                "value": "smartfire_temp_food1"
+            },
+            {
+                "property": "device_class",
+                "value": ""
+            },
+            {
+                "property": "icon",
+                "value": "mdi:grill"
+            },
+            {
+                "property": "unit_of_measurement",
+                "value": "ºC"
+            }
+        ],
+        "state": "payload.f1",
+        "stateType": "jsonata",
+        "attributes": [],
+        "resend": true,
+        "outputLocation": "",
+        "outputLocationType": "none",
+        "inputOverride": "allow",
+        "x": 1270,
+        "y": 400,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "c134c842.2adfe8",
+        "type": "ha-entity",
+        "z": "99d9eb34.8e9c58",
+        "name": "Smartfire Food 1 Target",
+        "server": "138092b5.db8b7d",
+        "version": 1,
+        "debugenabled": false,
+        "outputs": 1,
+        "entityType": "sensor",
+        "config": [
+            {
+                "property": "name",
+                "value": "smartfire_temp_food1target"
+            },
+            {
+                "property": "device_class",
+                "value": ""
+            },
+            {
+                "property": "icon",
+                "value": "mdi:grill"
+            },
+            {
+                "property": "unit_of_measurement",
+                "value": "ºC"
+            }
+        ],
+        "state": "payload.f1t",
+        "stateType": "jsonata",
+        "attributes": [],
+        "resend": true,
+        "outputLocation": "",
+        "outputLocationType": "none",
+        "inputOverride": "allow",
+        "x": 1290,
+        "y": 460,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "16f89c0a.d61514",
+        "type": "ha-entity",
+        "z": "99d9eb34.8e9c58",
+        "name": "Smartfire Food 2",
+        "server": "138092b5.db8b7d",
+        "version": 1,
+        "debugenabled": false,
+        "outputs": 1,
+        "entityType": "sensor",
+        "config": [
+            {
+                "property": "name",
+                "value": "smartfire_temp_food2"
+            },
+            {
+                "property": "device_class",
+                "value": ""
+            },
+            {
+                "property": "icon",
+                "value": "mdi:grill"
+            },
+            {
+                "property": "unit_of_measurement",
+                "value": "ºC"
+            }
+        ],
+        "state": "payload.f2",
+        "stateType": "jsonata",
+        "attributes": [],
+        "resend": true,
+        "outputLocation": "",
+        "outputLocationType": "none",
+        "inputOverride": "allow",
+        "x": 1270,
+        "y": 520,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "dbd1c50b.ecf198",
+        "type": "ha-entity",
+        "z": "99d9eb34.8e9c58",
+        "name": "Smartfire Food 2 Target",
+        "server": "138092b5.db8b7d",
+        "version": 1,
+        "debugenabled": false,
+        "outputs": 1,
+        "entityType": "sensor",
+        "config": [
+            {
+                "property": "name",
+                "value": "smartfire_temp_food2target"
+            },
+            {
+                "property": "device_class",
+                "value": ""
+            },
+            {
+                "property": "icon",
+                "value": "mdi:grill"
+            },
+            {
+                "property": "unit_of_measurement",
+                "value": "ºC"
+            }
+        ],
+        "state": "payload.f2t",
+        "stateType": "jsonata",
+        "attributes": [],
+        "resend": true,
+        "outputLocation": "",
+        "outputLocationType": "none",
+        "inputOverride": "allow",
+        "x": 1290,
+        "y": 580,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "93f743c6.54699",
+        "type": "ha-entity",
+        "z": "99d9eb34.8e9c58",
+        "name": "Smartfire Food 3",
+        "server": "138092b5.db8b7d",
+        "version": 1,
+        "debugenabled": false,
+        "outputs": 1,
+        "entityType": "sensor",
+        "config": [
+            {
+                "property": "name",
+                "value": "smartfire_temp_food3"
+            },
+            {
+                "property": "device_class",
+                "value": ""
+            },
+            {
+                "property": "icon",
+                "value": "mdi:grill"
+            },
+            {
+                "property": "unit_of_measurement",
+                "value": "ºC"
+            }
+        ],
+        "state": "payload.f3",
+        "stateType": "jsonata",
+        "attributes": [],
+        "resend": true,
+        "outputLocation": "",
+        "outputLocationType": "none",
+        "inputOverride": "allow",
+        "x": 1270,
+        "y": 640,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "259bc043.1bf87",
+        "type": "ha-entity",
+        "z": "99d9eb34.8e9c58",
+        "name": "Smartfire Food 3 Target",
+        "server": "138092b5.db8b7d",
+        "version": 1,
+        "debugenabled": false,
+        "outputs": 1,
+        "entityType": "sensor",
+        "config": [
+            {
+                "property": "name",
+                "value": "smartfire_temp_food3target"
+            },
+            {
+                "property": "device_class",
+                "value": ""
+            },
+            {
+                "property": "icon",
+                "value": "mdi:grill"
+            },
+            {
+                "property": "unit_of_measurement",
+                "value": "ºC"
+            }
+        ],
+        "state": "payload.f3t",
+        "stateType": "jsonata",
+        "attributes": [],
+        "resend": true,
+        "outputLocation": "",
+        "outputLocationType": "none",
+        "inputOverride": "allow",
+        "x": 1290,
+        "y": 700,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "e1320485.fbb098",
+        "type": "ha-entity",
+        "z": "99d9eb34.8e9c58",
+        "name": "Smartfire Pit",
+        "server": "138092b5.db8b7d",
+        "version": 1,
+        "debugenabled": false,
+        "outputs": 1,
+        "entityType": "sensor",
+        "config": [
+            {
+                "property": "name",
+                "value": "smartfire_temp_pit"
+            },
+            {
+                "property": "device_class",
+                "value": ""
+            },
+            {
+                "property": "icon",
+                "value": "mdi:grill"
+            },
+            {
+                "property": "unit_of_measurement",
+                "value": "ºC"
+            }
+        ],
+        "state": "payload.pit",
+        "stateType": "jsonata",
+        "attributes": [],
+        "resend": true,
+        "outputLocation": "",
+        "outputLocationType": "none",
+        "inputOverride": "allow",
+        "x": 1250,
+        "y": 760,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "181d689b.1a5547",
+        "type": "ha-entity",
+        "z": "99d9eb34.8e9c58",
+        "name": "Smartfire Pit Target",
+        "server": "138092b5.db8b7d",
+        "version": 1,
+        "debugenabled": false,
+        "outputs": 1,
+        "entityType": "sensor",
+        "config": [
+            {
+                "property": "name",
+                "value": "smartfire_temp_pit_target"
+            },
+            {
+                "property": "device_class",
+                "value": ""
+            },
+            {
+                "property": "icon",
+                "value": "mdi:grill"
+            },
+            {
+                "property": "unit_of_measurement",
+                "value": "ºC"
+            }
+        ],
+        "state": "payload.pt",
+        "stateType": "jsonata",
+        "attributes": [],
+        "resend": true,
+        "outputLocation": "",
+        "outputLocationType": "none",
+        "inputOverride": "allow",
+        "x": 1270,
+        "y": 820,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "79caace2.842474",
+        "type": "ha-entity",
+        "z": "99d9eb34.8e9c58",
+        "name": "Smartfire Pit High alarm",
+        "server": "138092b5.db8b7d",
+        "version": 1,
+        "debugenabled": false,
+        "outputs": 1,
+        "entityType": "sensor",
+        "config": [
+            {
+                "property": "name",
+                "value": "smartfire_temp_pit_highalarm"
+            },
+            {
+                "property": "device_class",
+                "value": ""
+            },
+            {
+                "property": "icon",
+                "value": "mdi:grill"
+            },
+            {
+                "property": "unit_of_measurement",
+                "value": "ºC"
+            }
+        ],
+        "state": "payload.ph",
+        "stateType": "jsonata",
+        "attributes": [],
+        "resend": true,
+        "outputLocation": "",
+        "outputLocationType": "none",
+        "inputOverride": "allow",
+        "x": 1290,
+        "y": 880,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "d44cecab.30121",
+        "type": "ha-entity",
+        "z": "99d9eb34.8e9c58",
+        "name": "Smartfire Pit Setpoint",
+        "server": "138092b5.db8b7d",
+        "version": 1,
+        "debugenabled": false,
+        "outputs": 1,
+        "entityType": "sensor",
+        "config": [
+            {
+                "property": "name",
+                "value": "smartfire_temp_pit_setpoint"
+            },
+            {
+                "property": "device_class",
+                "value": ""
+            },
+            {
+                "property": "icon",
+                "value": "mdi:grill"
+            },
+            {
+                "property": "unit_of_measurement",
+                "value": "ºC"
+            }
+        ],
+        "state": "payload.sp",
+        "stateType": "jsonata",
+        "attributes": [],
+        "resend": true,
+        "outputLocation": "",
+        "outputLocationType": "none",
+        "inputOverride": "allow",
+        "x": 1280,
+        "y": 1000,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "dbb4d56d.826608",
+        "type": "ha-entity",
+        "z": "99d9eb34.8e9c58",
+        "name": "Smartfire Pit Low alarm",
+        "server": "138092b5.db8b7d",
+        "version": 1,
+        "debugenabled": false,
+        "outputs": 1,
+        "entityType": "sensor",
+        "config": [
+            {
+                "property": "name",
+                "value": "smartfire_temp_pit_lowalarm"
+            },
+            {
+                "property": "device_class",
+                "value": ""
+            },
+            {
+                "property": "icon",
+                "value": "mdi:grill"
+            },
+            {
+                "property": "unit_of_measurement",
+                "value": "ºC"
+            }
+        ],
+        "state": "payload.pl",
+        "stateType": "jsonata",
+        "attributes": [],
+        "resend": true,
+        "outputLocation": "",
+        "outputLocationType": "none",
+        "inputOverride": "allow",
+        "x": 1290,
+        "y": 940,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "5ee12758.e6e3d8",
+        "type": "function",
+        "z": "99d9eb34.8e9c58",
+        "name": "F to C",
+        "func": "msg.payload.f1 = parseFloat((msg.payload.f1 -32)/1.8).toFixed(1)\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 1050,
+        "y": 400,
+        "wires": [
+            [
+                "a662c1ad.b163c"
+            ]
+        ]
+    },
+    {
+        "id": "b2346ff0.52efc",
+        "type": "function",
+        "z": "99d9eb34.8e9c58",
+        "name": "F to C",
+        "func": "msg.payload.f1t = parseFloat((msg.payload.f1t -32)/1.8).toFixed(1)\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 1050,
+        "y": 460,
+        "wires": [
+            [
+                "c134c842.2adfe8"
+            ]
+        ]
+    },
+    {
+        "id": "f09fda92.168808",
+        "type": "function",
+        "z": "99d9eb34.8e9c58",
+        "name": "F to C",
+        "func": "msg.payload.f2 = parseFloat((msg.payload.f2 -32)/1.8).toFixed(1)\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 1050,
+        "y": 520,
+        "wires": [
+            [
+                "16f89c0a.d61514"
+            ]
+        ]
+    },
+    {
+        "id": "9310df5d.42f5b",
+        "type": "function",
+        "z": "99d9eb34.8e9c58",
+        "name": "F to C",
+        "func": "msg.payload.f2t = parseFloat((msg.payload.f2t -32)/1.8).toFixed(1)\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 1050,
+        "y": 580,
+        "wires": [
+            [
+                "dbd1c50b.ecf198"
+            ]
+        ]
+    },
+    {
+        "id": "9c786e61.91743",
+        "type": "function",
+        "z": "99d9eb34.8e9c58",
+        "name": "F to C",
+        "func": "msg.payload.f3 = parseFloat((msg.payload.f3 -32)/1.8).toFixed(1)\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 1050,
+        "y": 640,
+        "wires": [
+            [
+                "93f743c6.54699"
+            ]
+        ]
+    },
+    {
+        "id": "13758230.30b4be",
+        "type": "function",
+        "z": "99d9eb34.8e9c58",
+        "name": "F to C",
+        "func": "msg.payload.f3t = parseFloat((msg.payload.f3t -32)/1.8).toFixed(1)\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 1050,
+        "y": 700,
+        "wires": [
+            [
+                "259bc043.1bf87"
+            ]
+        ]
+    },
+    {
+        "id": "a95f829b.82fab",
+        "type": "function",
+        "z": "99d9eb34.8e9c58",
+        "name": "F to C",
+        "func": "msg.payload.pit = parseFloat((msg.payload.pit -32)/1.8).toFixed(1)\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 1050,
+        "y": 760,
+        "wires": [
+            [
+                "e1320485.fbb098"
+            ]
+        ]
+    },
+    {
+        "id": "4e08f0b.18be81",
+        "type": "function",
+        "z": "99d9eb34.8e9c58",
+        "name": "F to C",
+        "func": "msg.payload.pt = parseFloat((msg.payload.pt -32)/1.8).toFixed(1)\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 1050,
+        "y": 820,
+        "wires": [
+            [
+                "181d689b.1a5547"
+            ]
+        ]
+    },
+    {
+        "id": "bc447851.520ea8",
+        "type": "function",
+        "z": "99d9eb34.8e9c58",
+        "name": "F to C",
+        "func": "msg.payload.ph = parseFloat((msg.payload.ph -32)/1.8).toFixed(1)\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 1050,
+        "y": 880,
+        "wires": [
+            [
+                "79caace2.842474"
+            ]
+        ]
+    },
+    {
+        "id": "21db5cf5.0ace04",
+        "type": "function",
+        "z": "99d9eb34.8e9c58",
+        "name": "F to C",
+        "func": "msg.payload.pl = parseFloat((msg.payload.pl -32)/1.8).toFixed(1)\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 1050,
+        "y": 940,
+        "wires": [
+            [
+                "dbb4d56d.826608"
+            ]
+        ]
+    },
+    {
+        "id": "2e9ce0c9.df91b",
+        "type": "function",
+        "z": "99d9eb34.8e9c58",
+        "name": "F to C",
+        "func": "msg.payload.sp = parseFloat((msg.payload.sp -32)/1.8).toFixed(1)\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 1050,
+        "y": 1000,
+        "wires": [
+            [
+                "d44cecab.30121"
+            ]
+        ]
+    },
+    {
+        "id": "af4c669c.d42548",
+        "type": "function",
+        "z": "99d9eb34.8e9c58",
+        "name": "Replace => to :",
+        "func": "var newMsg = { payload: msg.payload.event.value1.replace(/=>/g,\":\") }\nreturn newMsg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 520,
+        "y": 580,
+        "wires": [
+            [
+                "28d1169.5c87cea"
+            ]
+        ]
+    },
+    {
+        "id": "138092b5.db8b7d",
+        "type": "server",
+        "z": "",
+        "name": "Home Assistant",
+        "addon": true
+    }
+]
