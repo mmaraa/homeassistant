@@ -1,0 +1,21 @@
+#Configuration.yaml config
+input_select:
+  smartfire_probe:
+    name: "Smartfire master probe"
+    options:
+      - 1
+      - 2
+      - 3
+
+input_text:
+  smartfiref:
+    name: "Smartfire Food"
+
+---
+#Dashboard config
+type: entities
+title: BBQ
+entities:
+  - entity: input_text.smartfiref
+    name: Food in grill
+  - entity: input_select.smartfire_probe

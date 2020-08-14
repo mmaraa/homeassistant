@@ -1,0 +1,635 @@
+[
+    {
+        "id": "6631c785.5f7cf8",
+        "type": "api-current-state",
+        "z": "3c4c34e0.d13b8c",
+        "name": "F1 Current Temp",
+        "server": "138092b5.db8b7d",
+        "version": 1,
+        "outputs": 1,
+        "halt_if": "",
+        "halt_if_type": "str",
+        "halt_if_compare": "is",
+        "override_topic": true,
+        "entity_id": "sensor.smartfire_temp_food1",
+        "state_type": "num",
+        "state_location": "payloadcurrent",
+        "override_payload": "msg",
+        "entity_location": "data",
+        "override_data": "msg",
+        "blockInputOverrides": false,
+        "x": 390,
+        "y": 1980,
+        "wires": [
+            [
+                "2759009c.55c68"
+            ]
+        ]
+    },
+    {
+        "id": "2759009c.55c68",
+        "type": "api-current-state",
+        "z": "3c4c34e0.d13b8c",
+        "name": "F1 Current Target",
+        "server": "138092b5.db8b7d",
+        "version": 1,
+        "outputs": 1,
+        "halt_if": "",
+        "halt_if_type": "str",
+        "halt_if_compare": "is",
+        "override_topic": true,
+        "entity_id": "sensor.smartfire_temp_food1target",
+        "state_type": "num",
+        "state_location": "payloadtarget",
+        "override_payload": "msg",
+        "entity_location": "data",
+        "override_data": "msg",
+        "blockInputOverrides": false,
+        "x": 630,
+        "y": 1980,
+        "wires": [
+            [
+                "acf1f5a3.89aa28"
+            ]
+        ]
+    },
+    {
+        "id": "8a353797.316b28",
+        "type": "function",
+        "z": "3c4c34e0.d13b8c",
+        "name": "Calculate percentage",
+        "func": "var f1t = msg.payloadtarget;\nvar f1 = msg.payloadcurrent;\nvar percent = f1/f1t * 100;\nmsg.payloadpercentage = parseInt(percent);\n\nvar nintyfivetarget = f1t*0.95;\nvar targetrounded = parseInt(nintyfivetarget);\nmsg.payloaddifference = parseInt(f1t-f1);\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 1380,
+        "y": 2120,
+        "wires": [
+            [
+                "cfddfec5.9360b",
+                "fff4f4ef.35bb98"
+            ]
+        ]
+    },
+    {
+        "id": "cfddfec5.9360b",
+        "type": "switch",
+        "z": "3c4c34e0.d13b8c",
+        "name": "Closer than 95%",
+        "property": "payloadpercentage",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "gt",
+                "v": "94",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 1,
+        "x": 1630,
+        "y": 2120,
+        "wires": [
+            [
+                "caad88d5.a1e288"
+            ]
+        ]
+    },
+    {
+        "id": "5c89fe33.65a14",
+        "type": "api-call-service",
+        "z": "3c4c34e0.d13b8c",
+        "name": "Notify Sonos",
+        "server": "138092b5.db8b7d",
+        "version": 1,
+        "debugenabled": false,
+        "service_domain": "script",
+        "service": "sonos_tts",
+        "entityId": "",
+        "data": "{\"sonos_entity\":\"media_player.target_sonos\",\"volume\":0.4,\"message\":\"{{payloadfood}} is ready after {{payloaddifference}} degress.\",\"delay\":\"00:00:05\"}",
+        "dataType": "json",
+        "mergecontext": "",
+        "output_location": "",
+        "output_location_type": "none",
+        "mustacheAltTags": false,
+        "x": 2230,
+        "y": 2120,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "fc926edf.8fbcb",
+        "type": "server-state-changed",
+        "z": "3c4c34e0.d13b8c",
+        "name": "F1 Changed",
+        "server": "138092b5.db8b7d",
+        "version": 1,
+        "exposeToHomeAssistant": false,
+        "haConfig": [
+            {
+                "property": "name",
+                "value": ""
+            },
+            {
+                "property": "icon",
+                "value": ""
+            }
+        ],
+        "entityidfilter": "sensor.smartfire_temp_food1",
+        "entityidfiltertype": "exact",
+        "outputinitially": false,
+        "state_type": "str",
+        "haltifstate": "",
+        "halt_if_type": "str",
+        "halt_if_compare": "is",
+        "outputs": 1,
+        "output_only_on_state_change": true,
+        "x": 150,
+        "y": 1980,
+        "wires": [
+            [
+                "6631c785.5f7cf8"
+            ]
+        ]
+    },
+    {
+        "id": "caad88d5.a1e288",
+        "type": "api-current-state",
+        "z": "3c4c34e0.d13b8c",
+        "name": "Current food",
+        "server": "138092b5.db8b7d",
+        "version": 1,
+        "outputs": 1,
+        "halt_if": "",
+        "halt_if_type": "str",
+        "halt_if_compare": "is",
+        "override_topic": true,
+        "entity_id": "input_text.smartfiref",
+        "state_type": "str",
+        "state_location": "payloadfood",
+        "override_payload": "msg",
+        "entity_location": "data",
+        "override_data": "msg",
+        "blockInputOverrides": false,
+        "x": 1850,
+        "y": 2120,
+        "wires": [
+            [
+                "7215dda8.8cf254"
+            ]
+        ]
+    },
+    {
+        "id": "11f0aa50.8cbe26",
+        "type": "api-current-state",
+        "z": "3c4c34e0.d13b8c",
+        "name": "F2 Current Temp",
+        "server": "138092b5.db8b7d",
+        "version": 1,
+        "outputs": 1,
+        "halt_if": "",
+        "halt_if_type": "str",
+        "halt_if_compare": "is",
+        "override_topic": true,
+        "entity_id": "sensor.smartfire_temp_food2",
+        "state_type": "num",
+        "state_location": "payloadcurrent",
+        "override_payload": "msg",
+        "entity_location": "data",
+        "override_data": "msg",
+        "blockInputOverrides": false,
+        "x": 390,
+        "y": 2080,
+        "wires": [
+            [
+                "53e70912.20a538"
+            ]
+        ]
+    },
+    {
+        "id": "53e70912.20a538",
+        "type": "api-current-state",
+        "z": "3c4c34e0.d13b8c",
+        "name": "F2 Current Target",
+        "server": "138092b5.db8b7d",
+        "version": 1,
+        "outputs": 1,
+        "halt_if": "",
+        "halt_if_type": "str",
+        "halt_if_compare": "is",
+        "override_topic": true,
+        "entity_id": "sensor.smartfire_temp_food2target",
+        "state_type": "num",
+        "state_location": "payloadtarget",
+        "override_payload": "msg",
+        "entity_location": "data",
+        "override_data": "msg",
+        "blockInputOverrides": false,
+        "x": 630,
+        "y": 2080,
+        "wires": [
+            [
+                "41936592.a7e18c"
+            ]
+        ]
+    },
+    {
+        "id": "6d0ae25e.cdb54c",
+        "type": "server-state-changed",
+        "z": "3c4c34e0.d13b8c",
+        "name": "F2 Changed",
+        "server": "138092b5.db8b7d",
+        "version": 1,
+        "exposeToHomeAssistant": false,
+        "haConfig": [
+            {
+                "property": "name",
+                "value": ""
+            },
+            {
+                "property": "icon",
+                "value": ""
+            }
+        ],
+        "entityidfilter": "sensor.smartfire_temp_food2",
+        "entityidfiltertype": "exact",
+        "outputinitially": false,
+        "state_type": "str",
+        "haltifstate": "",
+        "halt_if_type": "str",
+        "halt_if_compare": "is",
+        "outputs": 1,
+        "output_only_on_state_change": true,
+        "x": 150,
+        "y": 2080,
+        "wires": [
+            [
+                "11f0aa50.8cbe26"
+            ]
+        ]
+    },
+    {
+        "id": "4bf306ea.f1f288",
+        "type": "api-current-state",
+        "z": "3c4c34e0.d13b8c",
+        "name": "F3 Current Temp",
+        "server": "138092b5.db8b7d",
+        "version": 1,
+        "outputs": 1,
+        "halt_if": "",
+        "halt_if_type": "str",
+        "halt_if_compare": "is",
+        "override_topic": true,
+        "entity_id": "sensor.smartfire_temp_food3",
+        "state_type": "num",
+        "state_location": "payloadcurrent",
+        "override_payload": "msg",
+        "entity_location": "data",
+        "override_data": "msg",
+        "blockInputOverrides": false,
+        "x": 390,
+        "y": 2200,
+        "wires": [
+            [
+                "8ecab350.d7be6"
+            ]
+        ]
+    },
+    {
+        "id": "8ecab350.d7be6",
+        "type": "api-current-state",
+        "z": "3c4c34e0.d13b8c",
+        "name": "F3 Current Target",
+        "server": "138092b5.db8b7d",
+        "version": 1,
+        "outputs": 1,
+        "halt_if": "",
+        "halt_if_type": "str",
+        "halt_if_compare": "is",
+        "override_topic": true,
+        "entity_id": "sensor.smartfire_temp_food3target",
+        "state_type": "num",
+        "state_location": "payloadtarget",
+        "override_payload": "msg",
+        "entity_location": "data",
+        "override_data": "msg",
+        "blockInputOverrides": false,
+        "x": 630,
+        "y": 2200,
+        "wires": [
+            [
+                "5b91bc5b.571244"
+            ]
+        ]
+    },
+    {
+        "id": "f3a0366d.402298",
+        "type": "server-state-changed",
+        "z": "3c4c34e0.d13b8c",
+        "name": "F3 Changed",
+        "server": "138092b5.db8b7d",
+        "version": 1,
+        "exposeToHomeAssistant": false,
+        "haConfig": [
+            {
+                "property": "name",
+                "value": ""
+            },
+            {
+                "property": "icon",
+                "value": ""
+            }
+        ],
+        "entityidfilter": "sensor.smartfire_temp_food3",
+        "entityidfiltertype": "exact",
+        "outputinitially": false,
+        "state_type": "str",
+        "haltifstate": "",
+        "halt_if_type": "str",
+        "halt_if_compare": "is",
+        "outputs": 1,
+        "output_only_on_state_change": true,
+        "x": 150,
+        "y": 2200,
+        "wires": [
+            [
+                "4bf306ea.f1f288"
+            ]
+        ]
+    },
+    {
+        "id": "acf1f5a3.89aa28",
+        "type": "api-current-state",
+        "z": "3c4c34e0.d13b8c",
+        "name": "Master Probe",
+        "server": "138092b5.db8b7d",
+        "version": 1,
+        "outputs": 1,
+        "halt_if": "",
+        "halt_if_type": "str",
+        "halt_if_compare": "is",
+        "override_topic": false,
+        "entity_id": "input_select.smartfire_probe",
+        "state_type": "str",
+        "state_location": "payloadprobe",
+        "override_payload": "msg",
+        "entity_location": "data",
+        "override_data": "msg",
+        "blockInputOverrides": false,
+        "x": 860,
+        "y": 1980,
+        "wires": [
+            [
+                "25966ef6.696f02"
+            ]
+        ]
+    },
+    {
+        "id": "25966ef6.696f02",
+        "type": "switch",
+        "z": "3c4c34e0.d13b8c",
+        "name": "Master probe 1",
+        "property": "payloadprobe",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "1",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 1,
+        "x": 1080,
+        "y": 1980,
+        "wires": [
+            [
+                "8a353797.316b28"
+            ]
+        ]
+    },
+    {
+        "id": "41936592.a7e18c",
+        "type": "api-current-state",
+        "z": "3c4c34e0.d13b8c",
+        "name": "Master Probe",
+        "server": "138092b5.db8b7d",
+        "version": 1,
+        "outputs": 1,
+        "halt_if": "",
+        "halt_if_type": "str",
+        "halt_if_compare": "is",
+        "override_topic": false,
+        "entity_id": "input_select.smartfire_probe",
+        "state_type": "str",
+        "state_location": "payloadprobe",
+        "override_payload": "msg",
+        "entity_location": "data",
+        "override_data": "msg",
+        "blockInputOverrides": false,
+        "x": 860,
+        "y": 2080,
+        "wires": [
+            [
+                "375bb0a7.85b7f"
+            ]
+        ]
+    },
+    {
+        "id": "375bb0a7.85b7f",
+        "type": "switch",
+        "z": "3c4c34e0.d13b8c",
+        "name": "Master probe 2",
+        "property": "payloadprobe",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "2",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 1,
+        "x": 1080,
+        "y": 2080,
+        "wires": [
+            [
+                "8a353797.316b28"
+            ]
+        ]
+    },
+    {
+        "id": "5b91bc5b.571244",
+        "type": "api-current-state",
+        "z": "3c4c34e0.d13b8c",
+        "name": "Master Probe",
+        "server": "138092b5.db8b7d",
+        "version": 1,
+        "outputs": 1,
+        "halt_if": "",
+        "halt_if_type": "str",
+        "halt_if_compare": "is",
+        "override_topic": false,
+        "entity_id": "input_select.smartfire_probe",
+        "state_type": "str",
+        "state_location": "payloadprobe",
+        "override_payload": "msg",
+        "entity_location": "data",
+        "override_data": "msg",
+        "blockInputOverrides": false,
+        "x": 860,
+        "y": 2200,
+        "wires": [
+            [
+                "fa7bb52d.68a388"
+            ]
+        ]
+    },
+    {
+        "id": "fa7bb52d.68a388",
+        "type": "switch",
+        "z": "3c4c34e0.d13b8c",
+        "name": "Master probe 3",
+        "property": "payloadprobe",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "3",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 1,
+        "x": 1080,
+        "y": 2200,
+        "wires": [
+            [
+                "8a353797.316b28"
+            ]
+        ]
+    },
+    {
+        "id": "7215dda8.8cf254",
+        "type": "rbe",
+        "z": "3c4c34e0.d13b8c",
+        "name": "",
+        "func": "narrowband",
+        "gap": "",
+        "start": "",
+        "inout": "in",
+        "property": "payload",
+        "x": 2050,
+        "y": 2120,
+        "wires": [
+            [
+                "5c89fe33.65a14"
+            ]
+        ]
+    },
+    {
+        "id": "fff4f4ef.35bb98",
+        "type": "switch",
+        "z": "3c4c34e0.d13b8c",
+        "name": "Ready",
+        "property": "payloadpercentage",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "gt",
+                "v": "99",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 1,
+        "x": 1590,
+        "y": 2200,
+        "wires": [
+            [
+                "6340a48.8c0d85c"
+            ]
+        ]
+    },
+    {
+        "id": "da09ccaf.f73c8",
+        "type": "api-call-service",
+        "z": "3c4c34e0.d13b8c",
+        "name": "Notify Sonos",
+        "server": "138092b5.db8b7d",
+        "version": 1,
+        "debugenabled": false,
+        "service_domain": "script",
+        "service": "sonos_tts",
+        "entityId": "",
+        "data": "{\"sonos_entity\":\"media_player.target_sonos\",\"volume\":0.4,\"message\":\"{{payloadfood}} is ready, get it out from the smoker.\",\"delay\":\"00:00:05\"}",
+        "dataType": "json",
+        "mergecontext": "",
+        "output_location": "",
+        "output_location_type": "none",
+        "mustacheAltTags": false,
+        "x": 2230,
+        "y": 2200,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "6340a48.8c0d85c",
+        "type": "api-current-state",
+        "z": "3c4c34e0.d13b8c",
+        "name": "Current food",
+        "server": "138092b5.db8b7d",
+        "version": 1,
+        "outputs": 1,
+        "halt_if": "",
+        "halt_if_type": "str",
+        "halt_if_compare": "is",
+        "override_topic": true,
+        "entity_id": "input_text.smartfiref",
+        "state_type": "str",
+        "state_location": "payloadfood",
+        "override_payload": "msg",
+        "entity_location": "data",
+        "override_data": "msg",
+        "blockInputOverrides": false,
+        "x": 1850,
+        "y": 2200,
+        "wires": [
+            [
+                "131e179f.3460b8"
+            ]
+        ]
+    },
+    {
+        "id": "131e179f.3460b8",
+        "type": "rbe",
+        "z": "3c4c34e0.d13b8c",
+        "name": "",
+        "func": "narrowband",
+        "gap": "",
+        "start": "",
+        "inout": "in",
+        "property": "payload",
+        "x": 2050,
+        "y": 2200,
+        "wires": [
+            [
+                "da09ccaf.f73c8"
+            ]
+        ]
+    },
+    {
+        "id": "138092b5.db8b7d",
+        "type": "server",
+        "z": "",
+        "name": "Home Assistant",
+        "addon": true
+    }
+]
